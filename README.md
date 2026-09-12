@@ -1,59 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Manajemen Toko Bangunan
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web Manajemen Toko Bangunan yang komprehensif, dibangun dengan menggunakan framework [Laravel 12](https://laravel.com/). Aplikasi ini dirancang untuk mempermudah operasional sehari-hari toko material/bangunan, mulai dari manajemen inventaris, kasir (POS), arus kas, hingga pelaporan.
 
-## About Laravel
+## 🚀 Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Manajemen Inventaris & Produk:** Kelola data produk, kategori, dan stok gudang.
+- **Point of Sale (Kasir/POS):** Sistem kasir yang cepat dan responsif untuk transaksi penjualan, termasuk fitur cetak struk.
+- **Manajemen Pelanggan & Piutang:** Lacak data pelanggan, batas kredit, deposit, dan tagihan/piutang pelanggan.
+- **Manajemen Multi-Toko (Cabang):** Dukungan untuk mengelola beberapa toko sekaligus beserta transfer stok antar toko.
+- **Arus Kas & Keuangan:** Catat pemasukan (Income) dan pengeluaran (Expense) operasional toko secara detail.
+- **Manajemen Pembelian (Backorder):** Pencatatan pembelian barang dari supplier.
+- **Laporan (Reporting):** Generate laporan penjualan, inventaris, dan keuangan dalam format PDF.
+- **Manajemen Pengguna & Hak Akses:** Sistem role-based access control (RBAC) menggunakan Spatie Permission (Admin, Kasir, Manajer, dll).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend:** Laravel 12.x (PHP 8.2+)
+- **Frontend:** Laravel Blade, Tailwind CSS (via Breeze)
+- **Database:** MySQL / PostgreSQL
+- **Role Management:** Spatie Laravel Permission
+- **Authentication:** Laravel Breeze
 
-## Learning Laravel
+## ⚙️ Cara Instalasi & Menjalankan di Lokal
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Ikuti langkah-langkah di bawah ini untuk menjalankan aplikasi di komputer lokal (localhost):
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clone repository ini**
+   ```bash
+   git clone https://github.com/ArvinSSatria/manajemen-toko-bangunan.git
+   cd manajemen-toko-bangunan
+   ```
 
-## Laravel Sponsors
+2. **Install dependency PHP (Composer)**
+   ```bash
+   composer install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Install dependency Node.js (NPM)**
+   ```bash
+   npm install
+   ```
 
-### Premium Partners
+4. **Konfigurasi Environment**
+   Salin file `.env.example` menjadi `.env` dan sesuaikan konfigurasi database Anda.
+   ```bash
+   cp .env.example .env
+   ```
+   Atur koneksi database Anda di `.env`:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=manajemen_toko
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+5. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+   ```
 
-## Contributing
+6. **Jalankan Migrasi & Seeder Database**
+   Perintah ini akan membuat tabel dan mengisi data awal (dummy data) beserta peran (roles) dan akun admin.
+   ```bash
+   php artisan migrate --seed
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. **Jalankan Server Development**
+   Untuk kemudahan, Anda bisa menggunakan script yang sudah disediakan:
+   ```bash
+   npm run dev
+   ```
+   Atau jika ingin menjalankan secara terpisah:
+   ```bash
+   php artisan serve
+   ```
+   Dan jalankan Vite di terminal baru:
+   ```bash
+   npm run dev
+   ```
 
-## Code of Conduct
+8. **Akses Aplikasi**
+   Buka browser dan akses `http://localhost:8000`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 👤 Kredensial Akses Default
 
-## Security Vulnerabilities
+Jika Anda telah menjalankan seeder, gunakan kredensial berikut untuk masuk sebagai administrator utama:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Email:** admin@admin.com (atau sesuaikan dengan `AdminUserSeeder`)
+- **Password:** password
 
-## License
+## 📄 Lisensi
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Aplikasi ini menggunakan lisensi [MIT license](https://opensource.org/licenses/MIT).
