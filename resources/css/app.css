@@ -1,0 +1,821 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================================
+   DESIGN SYSTEM — Premium SaaS Dashboard
+   Inspired by Stripe, Linear, Vercel, Mercury
+   ================================================================ */
+
+@layer base {
+    body {
+        @apply font-sans antialiased text-gray-900 dark:text-gray-200;
+        background-color: #F2F2F7; /* iOS Light Background */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .dark body {
+        background-color: #1C1C1E; /* Lighter Dark Gray Background */
+    }
+}
+
+@layer components {
+
+    /* ── Sidebar ─────────────────────────────────────────────── */
+    .sidebar {
+        @apply fixed inset-y-0 left-0 z-50 bg-white/70 border-r border-slate-200/50 transform;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transition-property: transform, width;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+    }
+    
+    .dark .sidebar {
+        @apply bg-[#2C2C2E]/90 border-slate-700/50;
+    }
+    .sidebar::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    .sidebar-link {
+        @apply flex items-center gap-3 px-3 py-2 text-[15px] font-medium text-slate-600 mx-3 mb-1 transition-all duration-300;
+        border-radius: 10px;
+    }
+
+    .dark .sidebar-link {
+        @apply text-slate-400;
+    }
+
+    .sidebar-link:hover {
+        @apply text-slate-900 bg-slate-100/80;
+    }
+
+    .dark .sidebar-link:hover {
+        @apply text-white bg-slate-800/80;
+    }
+
+    .sidebar-link.active {
+        @apply text-white bg-primary-500 font-semibold shadow-sm;
+    }
+
+    /* Chevron Icon for Links */
+    .sidebar-link::after {
+        content: "";
+        width: 0.65rem;
+        height: 0.65rem;
+        margin-left: auto;
+        margin-right: 0.25rem;
+        background-color: currentColor;
+        opacity: 0;
+        transition: opacity 150ms ease;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='black'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7' /%3E%3C/svg%3E") no-repeat center / contain;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='black'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7' /%3E%3C/svg%3E") no-repeat center / contain;
+    }
+
+    .sidebar-link:hover::after,
+    .sidebar-link.active::after {
+        opacity: 1;
+    }
+
+    /* Base transitions for smooth collapse */
+    .brand-text, 
+    .sidebar-section-title, 
+    .sidebar-link span,
+    .sidebar-link::after {
+        transition: opacity 100ms ease, width 300ms ease, margin 300ms ease, padding 300ms ease, height 300ms ease;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    
+    /* When expanded, delay opacity so width grows first */
+    .sidebar:not(.is-collapsed) .brand-text, 
+    .sidebar:not(.is-collapsed) .sidebar-section-title, 
+    .sidebar:not(.is-collapsed) .sidebar-link span,
+    .sidebar:not(.is-collapsed) .sidebar-link::after {
+        transition: opacity 200ms ease 100ms, width 300ms ease, margin 300ms ease, padding 300ms ease, height 300ms ease;
+    }
+    
+    .sidebar-section-title {
+        transition-property: opacity, height, margin, padding;
+    }
+
+    /* Collapsed Sidebar Styles */
+    @media (min-width: 1024px) {
+        .sidebar.is-collapsed .brand-text {
+            opacity: 0;
+            width: 0;
+        }
+        .sidebar.is-collapsed .sidebar-section-title {
+            opacity: 0;
+            height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin: 0;
+        }
+        .sidebar.is-collapsed .sidebar-link span {
+            opacity: 0;
+            width: 0;
+        }
+        .sidebar.is-collapsed .sidebar-link::after {
+            opacity: 0;
+            width: 0;
+            margin: 0;
+        }
+        .sidebar.is-collapsed .sidebar-link {
+            justify-content: center;
+            margin-left: 0.75rem;
+            margin-right: 0.75rem;
+            padding-left: 0;
+            padding-right: 0;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            gap: 0;
+        }
+        .sidebar.is-collapsed .brand-header {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    .sidebar-section-title {
+        @apply px-6 pt-6 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider;
+    }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .card {
+        @apply bg-white dark:bg-[#1C1C1E] overflow-hidden;
+        border-radius: 20px;
+        border: 1px solid rgba(0,0,0,0.02);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .dark .card {
+        @apply bg-[#2C2C2E];
+        border-color: rgba(255,255,255,0.06);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ── Data Table ──────────────────────────────────────────── */
+    .table {
+        @apply w-full text-sm text-left border-collapse;
+    }
+
+    .table thead {
+        @apply border-b;
+        border-color: #e5e7eb;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #f9fafb;
+    }
+    .dark .table thead {
+        background-color: #334155; /* slate-700 */
+        border-color: #475569; /* slate-600 */
+    }
+
+    .table th {
+        @apply px-5 py-3.5 font-medium text-gray-500 dark:text-gray-300 text-xs uppercase tracking-wider whitespace-nowrap;
+    }
+
+    .table td {
+        @apply px-5 align-middle text-gray-700 dark:text-gray-200;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #f3f4f6;
+    }
+    .dark .table td {
+        border-bottom-color: #475569; /* slate-600 */
+    }
+
+    .table tbody tr {
+        @apply transition-colors duration-100;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f9fafb;
+    }
+    .dark .table tbody tr:hover {
+        background-color: rgba(71, 85, 105, 0.4); /* slate-600 with opacity */
+    }
+
+    /* ── Form Inputs ─────────────────────────────────────────── */
+    .input {
+        @apply w-full px-4 py-2.5 bg-[#F2F2F7] border border-transparent rounded-[12px] text-[15px] text-slate-800 dark:text-white dark:bg-[#3A3A3C] placeholder-slate-400 transition-all duration-200;
+    }
+    .dark .input {
+        border-color: transparent;
+    }
+    .input:focus, .input:active, .input:focus-visible {
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(81, 50, 82, 0.2) !important;
+        background-color: #ffffff !important;
+    }
+    .dark .input:focus, .dark .input:active, .dark .input:focus-visible {
+        background-color: #48484A !important;
+    }
+
+    textarea.input {
+        @apply min-h-[100px];
+        resize: vertical;
+        font-family: inherit;
+    }
+
+    select.input {
+        @apply pr-10;
+    }
+
+    .label {
+        @apply block font-semibold text-slate-700 dark:text-slate-400 mb-2 uppercase text-[11px] tracking-tight;
+    }
+
+    /* ── Buttons ──────────────────────────────────────────────── */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 font-semibold disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-all active:scale-[0.98] px-4 py-2 text-[15px];
+        border-radius: 12px;
+    }
+
+    .btn-primary {
+        @apply btn text-white bg-primary-500 hover:bg-primary-600 shadow-sm;
+        padding: 10px 24px;
+    }
+
+    .btn-secondary {
+        @apply btn text-slate-700 hover:text-slate-900 bg-[#F2F2F7];
+        padding: 10px 20px;
+        border: none;
+    }
+    .dark .btn-secondary {
+        @apply text-slate-200 bg-[#3A3A3C] hover:bg-[#48484A];
+    }
+
+    .btn-icon {
+        @apply inline-flex items-center justify-center disabled:opacity-50 hover:bg-slate-200/50 rounded text-slate-400;
+        width: 32px;
+        height: 32px;
+        transition: background-color 150ms ease, color 150ms ease;
+    }
+
+    /* ── Badges ───────────────────────────────────────────────── */
+    .badge {
+        @apply inline-flex items-center px-3 py-1 text-[13px] font-semibold;
+        border-radius: 9999px; /* Pill shape */
+    }
+
+    .badge-primary {
+        @apply badge;
+        background-color: #f1f5f9;
+        color: #0f172a;
+    }
+    .dark .badge-primary {
+        background-color: rgba(15, 23, 42, 0.5);
+        color: #94a3b8;
+    }
+
+    .badge-secondary {
+        @apply badge;
+        background-color: #f3f4f6;
+        color: #4b5563;
+    }
+    .dark .badge-secondary {
+        background-color: rgba(75, 85, 99, 0.2);
+        color: #9ca3af;
+    }
+
+    .badge-success {
+        @apply badge;
+        background-color: #f0fdf4;
+        color: #15803d;
+    }
+    .dark .badge-success {
+        background-color: rgba(22, 163, 74, 0.15);
+        color: #4ade80;
+    }
+
+    .badge-danger {
+        @apply badge;
+        background-color: #fef2f2;
+        color: #b91c1c;
+    }
+    .dark .badge-danger {
+        background-color: rgba(220, 38, 38, 0.15);
+        color: #f87171;
+    }
+
+    .badge-warning {
+        @apply badge;
+        background-color: #fffbeb;
+        color: #b45309;
+    }
+    .dark .badge-warning {
+        background-color: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+    }
+
+    .badge-info {
+        @apply badge;
+        background-color: #eff6ff;
+        color: #1d4ed8;
+    }
+    .dark .badge-info {
+        background-color: rgba(37, 99, 235, 0.15);
+        color: #60a5fa;
+    }
+
+    /* ── Filter Bar ──────────────────────────────────────────── */
+    .filter-bar {
+        background-color: #f9fafb;
+        border: 1px solid #f3f4f6;
+        border-radius: 12px;
+        padding: 16px;
+    }
+    .dark .filter-bar {
+        background-color: rgba(31, 41, 55, 0.5);
+        border-color: #1f2937;
+    }
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+}
+
+/* ── Hide scrollbar utility ─────────────────────────────────── */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ================================================================
+   SweetAlert2 — Premium SaaS Modal System 2025
+   Inspired by Stripe, Linear, Vercel, Clerk, Supabase
+   ================================================================ */
+
+/* ── Backdrop ──────────────────────────────────────────────────── */
+.swal2-container {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    background: rgba(15, 23, 42, 0.45) !important;
+}
+
+/* ── Modal Container ──────────────────────────────────────────── */
+.swal2-popup {
+    width: 400px !important;
+    max-width: 92vw !important;
+    border-radius: 24px !important;
+    background: #FFFFFF !important;
+    border: none !important;
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.05),
+        0 10px 40px rgba(0, 0, 0, 0.1) !important;
+    padding: 32px 24px 24px !important;
+}
+
+.dark .swal2-popup {
+    background: #2C2C2E !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 10px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ── Entrance Animation ───────────────────────────────────────── */
+.swal2-popup.swal2-show {
+    animation: swalFadeScale 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.swal2-popup.swal2-hide {
+    animation: swalFadeOut 150ms ease-in !important;
+}
+
+@keyframes swalFadeScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes swalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+}
+
+/* ── Close Button ─────────────────────────────────────────────── */
+.swal2-close {
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    color: #94a3b8 !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 150ms ease !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.swal2-close:hover {
+    color: #475569 !important;
+    background: #f1f5f9 !important;
+}
+
+.swal2-close:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.dark .swal2-close {
+    color: #64748b !important;
+}
+
+.dark .swal2-close:hover {
+    color: #e2e8f0 !important;
+    background: #334155 !important;
+}
+
+/* ── Icon Badges ──────────────────────────────────────────────── */
+.swal2-popup .swal2-icon {
+    width: 56px !important;
+    height: 56px !important;
+    margin: 8px auto 0 !important;
+    border: none !important;
+    border-radius: 16px !important;
+}
+
+/* Success Icon Badge */
+.swal2-icon.swal2-success {
+    background: #ECFDF3 !important;
+    color: #12B76A !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    display: none !important;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #12B76A !important;
+    height: 3px !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-line-tip {
+    top: 33px !important;
+    left: 10px !important;
+    width: 16px !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-line-long {
+    top: 28px !important;
+    right: 8px !important;
+    width: 24px !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-fix {
+    display: none !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-circular-line-left,
+.swal2-icon.swal2-success .swal2-success-circular-line-right {
+    display: none !important;
+}
+
+.dark .swal2-icon.swal2-success {
+    background: rgba(18, 183, 106, 0.12) !important;
+}
+
+/* Warning Icon Badge */
+.swal2-icon.swal2-warning {
+    background: #FFFAEB !important;
+    color: #F79009 !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.swal2-icon.swal2-warning .swal2-icon-content {
+    color: #F79009 !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.dark .swal2-icon.swal2-warning {
+    background: rgba(247, 144, 9, 0.12) !important;
+}
+
+/* Error Icon Badge */
+.swal2-icon.swal2-error {
+    background: #FEF3F2 !important;
+    color: #F04438 !important;
+}
+
+.swal2-icon.swal2-error .swal2-x-mark-line-left,
+.swal2-icon.swal2-error .swal2-x-mark-line-right {
+    background-color: #F04438 !important;
+    height: 3px !important;
+    width: 24px !important;
+    top: 26px !important;
+}
+
+.dark .swal2-icon.swal2-error {
+    background: rgba(240, 68, 56, 0.12) !important;
+}
+
+/* Info Icon Badge */
+.swal2-icon.swal2-info {
+    background: #EFF6FF !important;
+    color: #3B82F6 !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.swal2-icon.swal2-info .swal2-icon-content {
+    color: #3B82F6 !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.dark .swal2-icon.swal2-info {
+    background: rgba(59, 130, 246, 0.12) !important;
+}
+
+/* Question Icon Badge */
+.swal2-icon.swal2-question {
+    background: #F5F3FF !important;
+    color: #7C3AED !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.swal2-icon.swal2-question .swal2-icon-content {
+    color: #7C3AED !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.dark .swal2-icon.swal2-question {
+    background: rgba(124, 58, 237, 0.12) !important;
+}
+
+/* ── Typography ───────────────────────────────────────────────── */
+.swal2-popup .swal2-title {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.01em !important;
+    padding: 16px 0 0 0 !important;
+    margin: 0 !important;
+    line-height: 1.3 !important;
+}
+
+.dark .swal2-popup .swal2-title {
+    color: #f1f5f9 !important;
+}
+
+.swal2-popup .swal2-html-container,
+.swal2-popup #swal2-content {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    color: #667085 !important;
+    margin: 8px 0 0 0 !important;
+    padding: 0 8px !important;
+}
+
+.dark .swal2-popup .swal2-html-container,
+.dark .swal2-popup #swal2-content {
+    color: #94a3b8 !important;
+}
+
+/* ── Action Buttons ───────────────────────────────────────────── */
+.swal2-actions {
+    margin-top: 24px !important;
+    padding: 0 !important;
+    gap: 12px !important;
+    width: 100% !important;
+    flex-wrap: nowrap !important;
+}
+
+.swal2-confirm,
+.swal2-cancel,
+.swal2-deny {
+    height: 44px !important;
+    min-width: 120px !important;
+    padding: 0 24px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    border: none !important;
+    outline: none !important;
+    cursor: pointer !important;
+    transition: all 200ms ease !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+
+.swal2-confirm:hover,
+.swal2-cancel:hover,
+.swal2-deny:hover {
+    transform: translateY(-1px) !important;
+}
+
+.swal2-confirm:active,
+.swal2-cancel:active,
+.swal2-deny:active {
+    transform: translateY(0) !important;
+}
+
+.swal2-confirm:focus,
+.swal2-cancel:focus,
+.swal2-deny:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Primary Confirm Button */
+.swal2-confirm {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.swal2-confirm:hover {
+    background: #1e293b !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2) !important;
+}
+
+.dark .swal2-confirm {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+.dark .swal2-confirm:hover {
+    background: #f1f5f9 !important;
+}
+
+/* Secondary Cancel Button */
+.swal2-cancel {
+    background: #F2F4F7 !important;
+    color: #344054 !important;
+}
+
+.swal2-cancel:hover {
+    background: #E4E7EC !important;
+}
+
+.dark .swal2-cancel {
+    background: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+.dark .swal2-cancel:hover {
+    background: #475569 !important;
+}
+
+/* Deny Button */
+.swal2-deny {
+    background: #FEF3F2 !important;
+    color: #F04438 !important;
+}
+
+.swal2-deny:hover {
+    background: #FEE4E2 !important;
+}
+
+/* ── Timer Progress Bar ───────────────────────────────────────── */
+.swal2-timer-progress-bar-container {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    overflow: hidden !important;
+    border-radius: 0 0 20px 20px !important;
+    background: transparent !important;
+}
+
+.swal2-timer-progress-bar {
+    background: linear-gradient(90deg, #3b82f6, #6366f1) !important;
+    height: 4px !important;
+    border-radius: 0 0 20px 20px !important;
+}
+
+.dark .swal2-timer-progress-bar {
+    background: linear-gradient(90deg, #60a5fa, #818cf8) !important;
+}
+
+/* ── Validation Message ───────────────────────────────────────── */
+.swal2-validation-message {
+    background: #FEF3F2 !important;
+    color: #F04438 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+    padding: 10px 16px !important;
+    margin: 16px 0 0 0 !important;
+}
+
+/* ── Input Fields ─────────────────────────────────────────────── */
+.swal2-popup .swal2-input,
+.swal2-popup .swal2-textarea,
+.swal2-popup .swal2-select {
+    border: 1px solid #E4E7EC !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+    color: #344054 !important;
+    transition: border-color 150ms ease, box-shadow 150ms ease !important;
+    margin: 16px 0 0 0 !important;
+    height: auto !important;
+}
+
+.swal2-popup .swal2-input:focus,
+.swal2-popup .swal2-textarea:focus {
+    border-color: #94a3b8 !important;
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1) !important;
+    outline: none !important;
+}
+
+/* ── Styled for Danger Confirmations ──────────────────────────── */
+.swal2-popup.swal-danger-confirm .swal2-confirm {
+    background: #F04438 !important;
+    color: #ffffff !important;
+}
+
+.swal2-popup.swal-danger-confirm .swal2-confirm:hover {
+    background: #D92D20 !important;
+    box-shadow: 0 4px 12px rgba(240, 68, 56, 0.25) !important;
+}
+
+/* ── Styled for Warning Confirmations ─────────────────────────── */
+.swal2-popup.swal-warning-confirm .swal2-confirm {
+    background: #F79009 !important;
+    color: #ffffff !important;
+}
+
+.swal2-popup.swal-warning-confirm .swal2-confirm:hover {
+    background: #DC6803 !important;
+    box-shadow: 0 4px 12px rgba(247, 144, 9, 0.25) !important;
+}
+
+/* ── Styled for Success Confirmations ─────────────────────────── */
+.swal2-popup.swal-success-confirm .swal2-confirm {
+    background: #12B76A !important;
+    color: #ffffff !important;
+}
+
+.swal2-popup.swal-success-confirm .swal2-confirm:hover {
+    background: #039855 !important;
+    box-shadow: 0 4px 12px rgba(18, 183, 106, 0.25) !important;
+}
+
+/* ── Form input transitions only ────────────────────────────── */
+input, textarea, select {
+    transition-property: border-color, box-shadow;
+    transition-duration: 150ms;
+}
